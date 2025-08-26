@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>واندر لند | فروشگاه عطر و اکسسوری</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-dark: #0a0a0a;
+            --secondary-dark: #1a1a1a;
+            --primary-gold: #D4AF37;
+            --secondary-gold: #FFD700;
+            --light-text: #f8f9fa;
+            --dark-text: #212529;
+            --transition: all 0.3s ease;
+        }
+
+        /* صفحه لودینگ */
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .perfume-spray {
+            position: relative;
+            width: 100px;
+            height: 200px;
+        }
+
+        .perfume-bottle {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 120px;
+            background: linear-gradient(to right, #2c2c2c, #1a1a1a);
+            border-radius: 10px 10px 5px 5px;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        .perfume-bottle::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 30px;
+            background: linear-gradient(to right, #D4AF37, #FFD700);
+            border-radius: 5px 5px 0 0;
+        }
+
+        .spray-effect {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.8) 0%, rgba(212, 175, 55, 0.4) 40%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            animation: spray 2s infinite;
+        }
+
+        @keyframes spray {
+            0% { 
+                opacity: 0;
+                transform: translateX(-50%) scale(0.5); 
+            }
+            50% { 
+                opacity: 1;
+                transform: translateX(-50%) scale(1.2); 
+            }
+            100% { 
+                opacity: 0;
+                transform: translateX(-50%) scale(1.5); 
+            }
+        }
+
+        .loading-text {
+            margin-top: 30px;
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: var(--primary-gold);
+            border-radius: 5px;
+            animation: loading 3s ease-in-out forwards;
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--primary-dark);
+            color: var(--light-text);
+            transition: var(--transition);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        /* نوار پیشرفت عمودی */
+        .progress-bar-vertical {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 250px;
+            width: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            z-index: 100;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .progress-bar-vertical-fill {
+            width: 100%;
+            background: var(--primary-gold);
+            border-radius: 10px;
+            transition: height 0.3s ease;
+            height: 0%;
+        }
+
+        /* بک‌گراند پارالکس */
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.1) 0%, transparent 30%),
+                linear-gradient(45deg, #0a0a0a 0%, #1a1a1a 100%);
+            z-index: -1;
+            transition: var(--transition);
+        }
+
+        .light-mode .parallax-bg {
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 30%),
+                linear-gradient(45deg, #f5f5f5 0%, #e0e0e0 100%);
+        }
+
+        body.light-mode {
+            background-color: #f8f9fa;
+            color: var(--dark-text);
+        }
+
+        .navbar {
+            background-color: rgba(10, 10, 10, 0.9);
+            box-shadow: 0 2px 15px rgba(212, 175, 55, 0.1);
+            padding: 15px 0;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .light-mode .navbar {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-gold) !important;
+        }
+
+        .nav-link {
+            color: var(--light-text) !important;
+            font-weight: 500;
+            margin-left: 20px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .light-mode .nav-link {
+            color: var(--dark-text) !important;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-gold) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-gold);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1595425970377-2f8ded5e851a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .light-mode .hero-section {
+            background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('https://images.unsplash.com/photo-1595425970377-2f8ded5e851a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-gold);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-right: auto;
+            margin-left: auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 0.8s;
+        }
+
+        .btn-gold {
+            background-color: var(--primary-gold);
+            color: var(--primary-dark);
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 1.1s;
+        }
+
+        .btn-gold:hover {
+            background-color: var(--secondary-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 15px;
+            font-weight: 700;
+            opacity: 0;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-gold);
+        }
+
+        .product-card {
+            background-color: var(--secondary-dark);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            margin-bottom: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        .light-mode .product-card {
+            background-color: #ffffff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .product-img {
+            height: 250px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+
+        .product-title {
+            font-weight: 600;
+            margin-top: 15px;
+            color: var(--primary-gold);
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: var(--light-text);
+            font-size: 1.2rem;
+        }
+
+        .light-mode .product-price {
+            color: var(--dark-text);
+        }
+
+        .about-section {
+            padding: 100px 0;
+            background-color: var(--secondary-dark);
+            transition: var(--transition);
+   
+        }
+
+        .light-mode .about-section {
+            background-color: #e9ecef;
+        }
+
+        .testimonial-card {
+            background-color: var(--primary-dark);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px;
+            transition: var(--transition);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        .light-mode .testimonial-card {
+            background-color: #ffffff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .client-name {
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+
+        .festival-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1513883049090-d1d21e2dfae6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 100px 0;
+            text-align: center;
+            transition: var(--transition);
+         
+        }
+
+        .light-mode .festival-section {
+            background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('https://images.unsplash.com/photo-1513883049090-d1d21e2ddfae6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .countdown-box {
+            background-color: rgba(212, 175, 55, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+
+        .countdown-label {
+            font-size: 1rem;
+            color: var(--light-text);
+        }
+
+        .light-mode .countdown-label {
+            color: var(--dark-text);
+        }
+
+        /* بخش کامنت‌ها */
+        .comments-section {
+            padding: 100px 0;
+            background-color: var(--secondary-dark);
+            transition: var(--transition);
+        }
+
+        .light-mode .comments-section {
+            background-color: #e9ecef;
+        }
+
+        .comment-form {
+            background-color: var(--primary-dark);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .light-mode .comment-form {
+            background-color: #ffffff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-card {
+            background-color: var(--primary-dark);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        .light-mode .comment-card {
+            background-color: #ffffff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* هشدار زیبا */
+        .custom-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            background: var(--primary-dark);
+            color: var(--light-text);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            border-right: 5px solid var(--primary-gold);
+            transform: translateX(400px);
+            transition: transform 0.5s ease;
+            max-width: 350px;
+        }
+
+        .light-mode .custom-alert {
+            background: #ffffff;
+            color: var(--dark-text);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-alert.show {
+            transform: translateX(0);
+        }
+
+        .alert-title {
+            color: var(--primary-gold);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .close-alert {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: none;
+            border: none;
+            color: var(--light-text);
+            cursor: pointer;
+        }
+
+        .light-mode .close-alert {
+            color: var(--dark-text);
+        }
+
+        /* انیمیشن‌ها */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .animate-left {
+            animation: fadeInLeft 1s ease forwards;
+        }
+
+        .animate-right {
+            animation: fadeInRight 1s ease forwards;
+        }
+
+        .animate-scale {
+            animation: fadeInScale 1s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+
+        /* محصولات جدید */
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--primary-gold);
+            color: var(--primary-dark);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+
+        .product-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+        }
+
+        .product-action-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--primary-dark);
+            color: var(--primary-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .product-action-btn:hover {
+            background: var(--primary-gold);
+            color: var(--primary-dark);
+        }
+
+        .rating {
+            color: var(--primary-gold);
+            margin: 10px 0;
+        }
+
+        /* فوتر */
+        .footer {
+            background-color: var(--primary-dark);
+            padding: 70px 0 20px;
+            color: var(--light-text);
+            transition: var(--transition);
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+            position: relative;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .light-mode .footer {
+            background-color: #212529;
+        }
+
+        .footer-title {
+            color: var(--primary-gold);
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-gold);
+            padding-right: 10px;
+        }
+
+        .social-icons {
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--light-text);
+            border-radius: 50%;
+            margin-left: 10px;
+            transition: var(--transition);
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-gold);
+            color: var(--primary-dark);
+            transform: translateY(-5px);
+        }
+
+        .theme-switch {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 999;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-dark);
+            color: var(--primary-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            border: 2px solid var(--primary-gold);
+        }
+
+        .light-mode .theme-switch {
+            background-color: #ffffff;
+            color: var(--primary-gold);
+        }
+
+        .theme-switch:hover {
+            transform: rotate(30deg);
+        }
+
+        .search-box {
+            position: relative;
+            margin-left: 20px;
+        }
+
+        .search-input {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            color: var(--light-text);
+            width: 250px;
+            transition: var(--transition);
+        }
+
+        .light-mode .search-input {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: var(--dark-text);
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-gold);
+        }
+
+        .search-btn {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--light-text);
+        }
+
+        .light-mode .search-btn {
+            color: var(--dark-text);
+        }
+
+        /* استایل‌های جدید برای رفع مشکل ریسپانسیو */
+        .hero-perfume-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .search-box {
+                margin-top: 15px;
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .search-input {
+                width: 100%;
+            }
+            
+            .progress-bar-vertical {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                height: auto;
+                min-height: 100vh;
+                padding: 100px 0 50px;
+            }
+            
+            .hero-content {
+                padding: 0 15px;
+            }
+            
+            .hero-perfume-image {
+                max-width: 80%;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .hero-perfume-image {
+                max-width: 90%;
+            }
+            
+            .btn-gold {
+                padding: 10px 25px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- صفحه لودینگ -->
+    <div id="loading">
+        <div class="perfume-spray">
+            <div class="perfume-bottle"></div>
+            <div class="spray-effect"></div>
+        </div>
+        <div class="loading-text">واندر لند</div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+
+    <!-- نوار پیشرفت عمودی -->
+    <div class="progress-bar-vertical">
+        <div class="progress-bar-vertical-fill" id="vertical-progress"></div>
+    </div>
+
+    <!-- هشدار ویژه -->
+    <div class="custom-alert" id="special-alert">
+        <button class="close-alert" id="close-alert">
+            <i class="bi bi-x-lg"></i>
+        </button>
+        <h5 class="alert-title">پیشنهاد ویژه!</h5>
+        <p>اولین خرید خود را با کد <strong>WELCOME20</strong> با ۲۰٪ تخفیف تجربه کنید!</p>
+    </div>
+
+    <!-- بک‌گراند پارالکس -->
+    <div class="parallax-bg"></div>
+
+    <main>
+        <!-- نوبار -->
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">واندر لند</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#home">خانه</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#products">محصولات</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">درباره ما</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#testimonials">نظرات</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#comments">نظر شما</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#festival">جشنواره ها</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">تماس با ما</a>
+                        </li>
+                    </ul>
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="جستجوی محصولات...">
+                        <button class="search-btn"><i class="bi bi-search"></i></button>
+                    </div>
+                    <div class="ms-3">
+                        <button class="btn btn-outline-warning"><i class="bi bi-cart3"></i> سبد خرید</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- بخش هیرو -->
+        <section class="hero-section" id="home">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6 order-md-2">
+                        <!-- عکس زیبا از عطر -->
+                        <img src="picture/1.jpg" 
+                             alt="عطر لوکس واندر لند" 
+                             class="hero-perfume-image">
+                    </div>
+                    <div class="col-md-6 order-md-1">
+                        <div class="hero-content">
+                            <h1 class="hero-title">کشف دنیای رایحه های بی نظیر</h1>
+                            <p class="hero-subtitle">در واندر لند، ما مجموعه ای از بهترین عطرها و اکسسوری ها را برای شما گردآوری کرده ایم تا تجربه ای منحصر به فرد از بوهای خوش را برایتان به ارمغان آوریم.</p>
+                            <button class="btn btn-gold">مشاهده محصولات</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش محصولات پرطرفدار -->
+        <section class="py-5" id="products">
+            <div class="container py-5">
+                <h2 class="section-title animate">محصولات پرفروش</h2>
+                <div class="row">
+                    <!-- محصول ۱ -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="product-card animate-right delay-1">
+                            <span class="product-badge">پرفروش</span>
+                            <div class="product-actions">
+                                <button class="product-action-btn"><i class="bi bi-heart"></i></button>
+                                <button class="product-action-btn"><i class="bi bi-eye"></i></button>
+                            </div>
+                            <img src="picture/8.jpg" class="product-img w-100" alt="عطر مردانه">
+                            <div class="p-3">
+                                <h5 class="product-title">عطر مردانه blue channel</h5>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                    <span>(۴۲)</span>
+                                </div>
+                                <p class="mb-2">رایحه ای شرقی و جذاب برای مردان مدرن</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="product-price">۲۹۰,۰۰۰ تومان</span>
+                                    <button class="btn btn-sm btn-gold">افزودن به سبد</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- محصول ۲ -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="product-card animate-right delay-2">
+                            <span class="product-badge">جدید</span>
+                            <div class="product-actions">
+                                <button class="product-action-btn"><i class="bi bi-heart"></i></button>
+                                <button class="product-action-btn"><i class="bi bi-eye"></i></button>
+                            </div>
+                            <img src="picture/2.jpg" class="product-img w-100" alt="عطر زنانه">
+                            <div class="p-3">
+                                <h5 class="product-title">عطر زنانه Golden Rose</h5>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>(۶۷)</span>
+                                </div>
+                                <p class="mb-2">رایحه ای گلدار و شاداب برای بانوان elegant</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="product-price">۳۲۰,۰۰۰ تومان</span>
+                                    <button class="btn btn-sm btn-gold">افزودن به سبد</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- محصول ۳ -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="product-card animate-right delay-3">
+                            <span class="product-badge">ویژه</span>
+                            <div class="product-actions">
+                                <button class="product-action-btn"><i class="bi bi-heart"></i></button>
+                                <button class="product-action-btn"><i class="bi bi-eye"></i></button>
+                            </div>
+                            <img src="picture/3.jpg" class="product-img w-100" alt="ست عطر">
+                            <div class="p-3">
+                                <h5 class="product-title">ست عطر Unisex Collection</h5>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                    <span>(۲۸)</span>
+                                </div>
+                                <p class="mb-2">مجموعه ای کامل از بهترین رایحه های unisex</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="product-price">۵۵۰,۰۰۰ تومان</span>
+                                    <button class="btn btn-sm btn-gold">افزودن به سبد</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- محصول ۴ -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="product-card animate-right delay-4">
+                            <span class="product-badge">تخفیف ۲۰٪</span>
+                            <div class="product-actions">
+                                <button class="product-action-btn"><i class="bi bi-heart"></i></button>
+                                <button class="product-action-btn"><i class="bi bi-eye"></i></button>
+                            </div>
+                            <img src="picture/4.jpg" class="product-img w-100" alt="اسپری بدن">
+                            <div class="p-3">
+                                <h5 class="product-title">اسپری بدن Summer Breeze</h5>
+                                <div class="rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                    <span>(۳۵)</span>
+                                </div>
+                                <p class="mb-2">اسپری خنک کننده با رایحه های تابستانی</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="product-price"><del>۲۲۵,۰۰۰</del> ۱۸۰,۰۰۰ تومان</span>
+                                    <button class="btn btn-sm btn-gold">افزودن به سبد</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-5">
+                    <button class="btn btn-outline-warning">مشاهده همه محصولات</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش درباره ما -->
+        <section class="about-section" id="about">
+            <div class="container">
+                <h2 class="section-title animate">درباره واندر لند</h2>
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <img src="picture/ChatGPT Image Aug 24, 2025, 09_21_26 PM.png" class="img-fluid rounded shadow animate-left delay-1" alt="درباره واندر لند">
+                    </div>
+                    <div class="col-lg-6 mt-5 mt-lg-0">
+                        <h3 class="mb-4 animate delay-2">داستان ما</h3>
+                        <p class="lead animate delay-2">واندر لند در سال ۱۳۹۵ با هدف ارائه بهترین و مرغوب ترین عطرها و اکسسوری های دنیا تأسیس شد. ما بر این باوریم که یک رایحه خوب می تواند خاطراتی ماندگار خلق کند و لحظات زندگی را زیباتر سازد.</p>
+                        <p class="animate delay-3">تیم ما متشکل از متخصصان عطرشناسی است که با دقت و وسواس خاصی، بهترین محصولات را از سراسر جهان انتخاب و گردآوری می کنند تا تجربه ای منحصر به فرد برای شما به ارمغان آورند.</p>
+                        <div class="row mt-4">
+                            <div class="col-md-6 animate delay-4">
+                                <h5><i class="bi bi-check-circle-fill text-success me-2"></i> تضمین اصالت کالا</h5>
+                                <p>همه محصولات ما دارای گارانتی اصالت هستند</p>
+                            </div>
+                            <div class="col-md-6 animate delay-4">
+                                <h5><i class="bi bi-truck text-primary me-2"></i> تحویل سریع</h5>
+                                <p>ارسال به تمام نقاط ایران در کمترین زمان</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-gold mt-3 animate delay-4">بیشتر بدانید</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش نظرات -->
+        <section class="py-5" id="testimonials">
+            <div class="container py-5">
+                <h2 class="section-title animate">نظرات مشتریان</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="testimonial-card animate-left delay-1">
+                            <div class="testimonial-text">
+                                <p>"من سالهاست که از محصولات واندر لند استفاده می کنم و همیشه از کیفیت و ماندگاری عطرهای آنها راضی بوده ام. پرسنل مجرب آنها همیشه بهترین توصیه ها را ارائه می دهند."</p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="مشتری" class="rounded-circle me-3" width="60" height="60">
+                                <div>
+                                    <h5 class="client-name mb-0">فاطمه محمدی</h5>
+                                    <small>مشتری ثابت</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="testimonial-card animate-left delay-2">
+                            <div class="testimonial-text">
+                                <p>"ست عطری که برای همسرم خریدم واقعاً فوق العاده بود. بسته بندی لوکس و کیفیت محصول در کنار قیمت مناسب، واندر لند را به بهترین انتخاب برای خرید عطر تبدیل کرده است."</p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="مشتری" class="rounded-circle me-3" width="60" height="60">
+                                <div>
+                                    <h5 class="client-name mb-0">رضا حسینی</h5>
+                                    <small>مشتری جدید</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="testimonial-card animate-left delay-3">
+                            <div class="testimonial-text">
+                                <p>"ارسال سریع و بسته بندی محکم محصولات واقعاً مرا شگفت زده کرد. علاوه بر این، راهنمایی های کارشناسان فروش در انتخاب عطر مناسب برای من بسیار مفید بود."</p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="مشتری" class="rounded-circle me-3" width="60" height="60">
+                                <div>
+                                    <h5 class="client-name mb-0">سارا کریمی</h5>
+                                    <small>مشتری آنلاین</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش نظر شما -->
+        <section class="comments-section" id="comments">
+            <div class="container">
+                <h2 class="section-title animate">نظر شما</h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="comment-form animate delay-1">
+                            <h4 class="mb-4">نظر خود را با ما به اشتراک بگذارید</h4>
+                            <form id="commentForm">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="name" class="form-label">نام شما</label>
+                                        <input type="text" class="form-control" id="name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">ایمیل</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="rating" class="form-label">امتیاز شما</label>
+                                    <div class="rating">
+                                        <i class="bi bi-star" data-value="1"></i>
+                                        <i class="bi bi-star" data-value="2"></i>
+                                        <i class="bi bi-star" data-value="3"></i>
+                                        <i class="bi bi-star" data-value="4"></i>
+                                        <i class="bi bi-star" data-value="5"></i>
+                                    </div>
+                                    <input type="hidden" id="rating-value" value="0">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="comment" class="form-label">نظر شما</label>
+                                    <textarea class="form-control" id="comment" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-gold">ارسال نظر</button>
+                            </form>
+                        </div>
+
+                        <div id="commentsList" class="mt-5">
+                            <h4 class="mb-4">نظرات کاربران</h4>
+                            <!-- نظرات از طریق JS اضافه خواهند شد -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش جشنواره ها -->
+        <section class="festival-section" id="festival">
+            <div class="container">
+                <h2 class="section-title text-white animate">جشنواره بهاره واندر لند</h2>
+                <p class="text-center mb-5 lead animate delay-1">تا <span class="text-warning">۴۰٪</span> تخفیف ویژه برای خریدهای بهاره</p>
+                
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="row justify-content-center">
+                            <div class="col-6 col-sm-3">
+                                <div class="countdown-box animate-scale delay-2">
+                                    <div class="countdown-number" id="days">12</div>
+                                    <div class="countdown-label">روز</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <div class="countdown-box animate-scale delay-3">
+                                    <div class="countdown-number" id="hours">18</div>
+                                    <div class="countdown-label">ساعت</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <div class="countdown-box animate-scale delay-4">
+                                    <div class="countdown-number" id="minutes">45</div>
+                                    <div class="countdown-label">دقیقه</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <div class="countdown-box animate-scale delay-1">
+                                    <div class="countdown-number" id="seconds">30</div>
+                                    <div class="countdown-label">ثانیه</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-gold mt-5 animate delay-2">مشاهده جشنواره</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- فوتر -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <h4 class="footer-title">واندر لند</h4>
+                    <p>فروشگاه تخصصی عطر و اکسسوری با ارائه بهترین برندهای داخلی و خارجی با гаранتی اصالت و کیفیت کالا</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-telegram"></i></a>
+                        <a href="#"><i class="bi bi-whatsapp"></i></a>
+                        <a href="#"><i class="bi bi-twitter"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-5 mb-md-0">
+                    <h5 class="footer-title">لینک های سریع</h5>
+                    <ul class="footer-links">
+                        <li><a href="#home">خانه</a></li>
+                        <li><a href="#products">محصولات</a></li>
+                        <li><a href="#about">درباره ما</a></li>
+                        <li><a href="#blog">وبلاگ</a></li>
+                        <li><a href="#contact">تماس با ما</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-5 mb-md-0">
+                    <h5 class="footer-title">دسته بندی ها</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">عطر مردانه</a></li>
+                        <li><a href="#">عطر زنانه</a></li>
+                        <li><a href="#">عطر unisex</a></li>
+                        <li><a href="#">اسپری بدن</a></li>
+                        <li><a href="#">اکسسوری</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="footer-title">اطلاعات تماس</h5>
+                    <ul class="footer-links">
+                        <li><i class="bi bi-geo-alt-fill me-2"></i> تهران، خیابان ولیعصر، پلاک ۱۲۳۴</li>
+                        <li><i class="bi bi-telephone-fill me-2"></i> ۰۲۱-۱۲۳۴۵۶۷۸</li>
+                        <li><i class="bi bi-envelope-fill me-2"></i> info@wonderland.ir</li>
+                        <li><i class="bi bi-clock-fill me-2"></i> هر روز از ۹ صبح تا ۱۰ شب</li>
+                    </ul>
+                    
+                    <h5 class="footer-title mt-4">خبرنامه</h5>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="ایمیل خود را وارد کنید">
+                        <button class="btn btn-gold" type="button">عضویت</button>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>© ۱۴۰۲ کلیه حقوق برای واندر لند محفوظ است.</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-md-end">
+                        <img src="https://logo.samandehi.ir/Logo.aspx?id=123456&p=rfidqsdqsdqsdqsdqsdqsdqsdqsd" alt="نماد اعتماد الکترونیکی" width="50" class="me-2">
+                        <img src="https://logo.samandehi.ir/Logo.aspx?id=123456&p=rfidqsdqsdqsdqsdqsdqsdqsdqsd" alt="پرداخت امن" width="50">
+                    </div>
+                </div>
+            </div>
+            </div>
+    </footer>
+
+    <!-- دکمه تغییر تم -->
+    <div class="theme-switch" id="theme-switch">
+        <i class="bi bi-brightness-high-fill"></i>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // صفحه لودینگ
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loading').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('loading').style.display = 'none';
+                    // فعال کردن انیمیشن‌های اسکرول
+                    initAnimations();
+                    
+                    // نمایش هشدار پس از 3 ثانیه
+                    setTimeout(function() {
+                        document.getElementById('special-alert').classList.add('show');
+                    }, 3000);
+                }, 500);
+            }, 3000);
+        });
+
+        // نوار پیشرفت عمودی
+        function updateVerticalProgress() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.pageYOffset;
+            const progress = (scrolled / documentHeight) * 100;
+            
+            document.getElementById('vertical-progress').style.height = progress + '%';
+        }
+        
+        window.addEventListener('scroll', updateVerticalProgress);
+        window.addEventListener('resize', updateVerticalProgress);
+        updateVerticalProgress();
+
+        // بستن هشدار
+        document.getElementById('close-alert').addEventListener('click', function() {
+            document.getElementById('special-alert').classList.remove('show');
+        });
+
+        // تغییر حالت تاریک/روشن
+        const themeSwitch = document.getElementById('theme-switch');
+        const themeIcon = themeSwitch.querySelector('i');
+        
+        themeSwitch.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            
+            if (document.body.classList.contains('light-mode')) {
+                themeIcon.classList.remove('bi-brightness-high-fill');
+                themeIcon.classList.add('bi-moon-fill');
+                localStorage.setItem('theme', 'light');
+            } else {
+                themeIcon.classList.remove('bi-moon-fill');
+                themeIcon.classList.add('bi-brightness-high-fill');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // بررسی وضعیت تم در localStorage
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+            themeIcon.classList.remove('bi-brightness-high-fill');
+            themeIcon.classList.add('bi-moon-fill');
+        }
+
+        // تایمر countdown
+        function updateCountdown() {
+            const now = new Date();
+            const targetDate = new Date();
+            targetDate.setDate(now.getDate() + 12);
+            
+            const diff = targetDate - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // افزودن اثر اسکرول نرم برای لینک‌ها
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // انیمیشن‌های اسکرول
+        function initAnimations() {
+            const animatedElements = document.querySelectorAll('.section-title, .product-card, .testimonial-card, .countdown-box, .comment-form, .comment-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('animate');
+                        }, 100);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // پارالکس effect
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallaxBg = document.querySelector('.parallax-bg');
+            parallaxBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+        });
+
+        // سیستم امتیازدهی
+        const stars = document.querySelectorAll('.rating i');
+        const ratingValue = document.getElementById('rating-value');
+        
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                ratingValue.value = value;
+                
+                stars.forEach(s => {
+                    if (s.getAttribute('data-value') <= value) {
+                        s.classList.remove('bi-star');
+                        s.classList.add('bi-star-fill');
+                    } else {
+                        s.classList.remove('bi-star-fill');
+                        s.classList.add('bi-star');
+                    }
+                });
+            });
+            
+            star.addEventListener('mouseover', function() {
+                const value = this.getAttribute('data-value');
+                
+                stars.forEach(s => {
+                    if (s.getAttribute('data-value') <= value) {
+                        s.classList.remove('bi-star');
+                        s.classList.add('bi-star-fill');
+                    }
+                });
+            });
+            
+            star.addEventListener('mouseout', function() {
+                const currentValue = ratingValue.value;
+                
+                stars.forEach(s => {
+                    if (s.getAttribute('data-value') > currentValue) {
+                        s.classList.remove('bi-star-fill');
+                        s.classList.add('bi-star');
+                    }
+                });
+            });
+        });
+
+        // سیستم نظرات
+        const commentForm = document.getElementById('commentForm');
+        const commentsList = document.getElementById('commentsList');
+        
+        // بارگذاری نظرات از localStorage
+        function loadComments() {
+            const comments = JSON.parse(localStorage.getItem('wonderlandComments')) || [];
+            
+            if (comments.length === 0) {
+                commentsList.innerHTML = '<p class="text-center">هنوز نظری ثبت نشده است. اولین نفری باشید که نظر می‌دهد!</p>';
+                return;
+            }
+            
+            commentsList.innerHTML = '';
+            comments.forEach(comment => {
+                const stars = '★'.repeat(comment.rating) + '☆'.repeat(5 - comment.rating);
+                
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment-card';
+                commentElement.innerHTML = `
+                    <div class="d-flex justify-content-between">
+                        <h5>${comment.name}</h5>
+                        <div class="text-warning">${stars}</div>
+                    </div>
+                    <p class="text-muted">${new Date(comment.date).toLocaleDateString('fa-IR')}</p>
+                    <p>${comment.comment}</p>
+                `;
+                
+                commentsList.appendChild(commentElement);
+                
+                // فعال کردن انیمیشن برای نظر جدید
+                setTimeout(() => {
+                    commentElement.classList.add('animate-right');
+                }, 100);
+            });
+        }
+        
+        // ذخیره نظر جدید
+        commentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const rating = document.getElementById('rating-value').value;
+            const comment = document.getElementById('comment').value;
+            
+            if (rating == 0) {
+                alert('لطفاً امتیاز دهید');
+                return;
+            }
+            
+            const newComment = {
+                name,
+                email,
+                rating,
+                comment,
+                date: new Date().toISOString()
+            };
+            
+            const comments = JSON.parse(localStorage.getItem('wonderlandComments')) || [];
+            comments.unshift(newComment);
+            localStorage.setItem('wonderlandComments', JSON.stringify(comments));
+            
+            // ریست فرم
+            commentForm.reset();
+            stars.forEach(s => {
+                s.classList.remove('bi-star-fill');
+                s.classList.add('bi-star');
+            });
+            ratingValue.value = '0';
+            
+            // بارگذاری مجدد نظرات
+            loadComments();
+            
+            // نمایش پیام موفقیت
+            alert('نظر شما با موفقیت ثبت شد. پس از تایید نمایش داده خواهد شد.');
+        });
+        
+        // بارگذاری اولیه نظرات
+        loadComments();
+    </script>
+</body>
+</html>
